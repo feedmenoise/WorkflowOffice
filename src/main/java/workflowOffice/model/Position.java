@@ -9,5 +9,6 @@ public enum Position {
     Tester,
     Manager,
     Director,
-    Accountant
+    Accountant,
+    Cleaner
 }

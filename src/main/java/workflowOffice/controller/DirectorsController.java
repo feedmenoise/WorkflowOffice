@@ -27,6 +27,7 @@ public class DirectorsController {
         taskList.put(Position.Tester, "тестировать программу");
         taskList.put(Position.Manager, "продавать услуги");
         taskList.put(Position.Accountant, "составить отчетность");
+        taskList.put(Position.Cleaner, "выполнять уборку");
     }
 
     /**

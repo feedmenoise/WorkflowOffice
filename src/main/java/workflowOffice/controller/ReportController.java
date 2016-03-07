@@ -67,6 +67,7 @@ public class ReportController {
         int testers = 0;
         int managers = 0;
         int accountants = 0;
+        int cleaners = 0;
         int freelancers = freelancersList.size();
 
         for (Map.Entry<Person, Set<Position>> person : personList.entrySet()) {
@@ -91,6 +92,9 @@ public class ReportController {
                     case "Accountant":
                         accountants++;
                         break;
+                    case "Cleaner":
+                        cleaners++;
+                        break;
                     default:
                         break;
                 }
@@ -104,6 +108,7 @@ public class ReportController {
         dataFile.add("      Тестировщика :      " + testers);
         dataFile.add("      Менеджера :         " + managers);
         dataFile.add("      Бухгалтера :        " + accountants);
+        dataFile.add("      Уборщика :          " + cleaners);
         dataFile.add("Фрилансеров :             " + freelancers);
     }
 
@@ -120,6 +125,7 @@ public class ReportController {
         int testersTasks = 0;
         int managersTasks = 0;
         int accountantsTasks = 0;
+        int cleanersTasks = 0;
 
         double personsHours = 0;
         double freelancersHours = 0;
@@ -130,6 +136,7 @@ public class ReportController {
         double testersHours = 0;
         double managersHours = 0;
         double accountantsHours = 0;
+        double cleanersHours = 0;
 
         for (Freelancer freelancer : freelancersList) {
             freelancersHours += freelancer.getAllHoursWorked();
@@ -171,6 +178,11 @@ public class ReportController {
                         accountantsTasks += accountant.getCountTasks();
                         accountantsHours += accountant.getAllHoursWorked();
                         break;
+                    case "Cleaner":
+                        Cleaner cleaner = (Cleaner) personAPositionEntry.getValue();
+                        cleanersTasks += cleaner.getCountTasks();
+                        cleanersHours += cleaner.getAllHoursWorked();
+                        break;
                     default:
                         break;
                 }
@@ -194,6 +206,8 @@ public class ReportController {
         dataFile.add(String
                 .format("      Бухгалтерами :      %.2f            %d", accountantsHours, accountantsTasks));
         dataFile.add(String
+                .format("      Уборщиками :        %.2f            %d", cleanersHours, cleanersTasks));
+        dataFile.add(String
                 .format("Фрилансерами :            %.2f            %d", freelancersHours, freelancersTasks));
     }
 
@@ -211,6 +225,7 @@ public class ReportController {
         double testersSalary = 0;
         double managersSalary = 0;
         double accountantsSalary = 0;
+        double cleanersSalary = 0;
 
         for (Map.Entry<Person, Set<Position>> person : personList.entrySet()) {
             Map<Position, APosition> listPositions = person.getKey().getListPositions();
@@ -240,6 +255,10 @@ public class ReportController {
                         Accountant accountant = (Accountant) personAPositionEntry.getValue();
                         accountantsSalary += accountant.getSalary();
                         break;
+                    case "Cleaner":
+                        Cleaner cleaner = (Cleaner) personAPositionEntry.getValue();
+                        cleanersSalary += cleaner.getSalary();
+                        break;
                     default:
                         break;
                 }
@@ -254,7 +273,7 @@ public class ReportController {
         dataFile.add(String.format("      Тестировщикам :     %.2f", testersSalary));
         dataFile.add(String.format("      Менеджерам :        %.2f", managersSalary));
         dataFile.add(String.format("      Бухгалтерам :       %.2f", accountantsSalary));
+        dataFile.add(String.format("      Уборщикам :         %.2f", cleanersSalary));
         dataFile.add(String.format("Фрилансерам :             %.2f", freelancersSalary));
     }
-
 }

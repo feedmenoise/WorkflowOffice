@@ -88,6 +88,9 @@ public final class PersonController {
                 case 5:
                     positionMap.put(pos, new Accountant("Accountant"));
                     break;
+                case 6:
+                    positionMap.put(pos, new Cleaner("Cleaner"));
+                    break;
                 default:
                     break;
             }
