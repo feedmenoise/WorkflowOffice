@@ -55,6 +55,8 @@ public final class PersonController {
             person.setListPositions(createPositionsForPerson(positionList)); //задаем список должностей
 
             list.put(person, positionList); //добавляем сотрудника в список
+            //отображение полученных должностей
+            //System.out.println(person.getName() + positionList.toString());
         }
         return list;
     }
@@ -128,7 +130,11 @@ public final class PersonController {
     }
 
     /**
-     * Метод задает сотруднику список должностей случайным образом
+     * Метод задает сотруднику список должностей случайным образом c учетом условий что:
+     * Бухгалтер может совмещать должность только с Менеджером
+     * Директор может совмещать должность только с Менеджером
+     * Менеджер может совмещать должьность только с Директором либо Бухгалтером
+     * Уборщик нискем не может совмещать должность
      */
     protected Set<Position> setRandomPositions() {
         Set<Position> list = new HashSet<>();
@@ -136,14 +142,102 @@ public final class PersonController {
 
         for (int i = 0; i <= amountPositions; i++) {
             int x = random.nextInt(Position.values().length); //выбор случайной должности
-            if (Position.values()[x] == Position.Director) { //если выпала должность директора
-                //проверяем, что директора еще требуются
-                if (countDirectorsPositions > 0) {
-                    list.clear(); //удаляем все предыдущие должности
-                    list.add(Position.values()[x]); //добавляем должность директора
-                    countDirectorsPositions--;
-                }
-            } else list.add(Position.values()[x]); //добавление в список должность
+            switch(x) { //Добавление должности в список, с проверкой условий
+                case 0: //Programmer
+                    //если в списке уже находятся такие должности как Бухгалтер, Директор, Уборщик, Менеджер
+                    //в список ничего не добавляется, итеррация цикла увеличивается
+                    //для предотвращения создания сотрудников без должности
+                    if (list.contains(Position.Accountant)
+                            || list.contains(Position.Director)
+                            || list.contains(Position.Cleaner)
+                            || list.contains(Position.Manager)) {
+                        amountPositions++; //увеличение итерации цикла
+                        break;
+                    } else {
+                        //в противном случае, должность программиста добавляется в список
+                        list.add(Position.Programmer);
+                        break;
+                    }
+
+                case 1: //Designer
+                    if (list.contains(Position.Accountant)
+                            || list.contains(Position.Director)
+                            || list.contains(Position.Cleaner)
+                            || list.contains(Position.Manager)) {
+                        amountPositions++;
+                        break;
+                    } else {
+                        list.add(Position.Designer);
+                        break;
+                    }
+
+                case 2: //Tester
+                    if (list.contains(Position.Accountant)
+                            || list.contains(Position.Director)
+                            || list.contains(Position.Cleaner)
+                            || list.contains(Position.Manager)) {
+                        amountPositions++;
+                        break;
+                    } else {
+                        list.add(Position.Tester);
+                        break;
+                    }
+
+                case 3: // Manager
+                    if (list.contains(Position.Accountant)
+                            || list.contains(Position.Director)) {
+                        list.add(Position.Manager);
+                        break;
+                    }
+
+                    else if (list.contains(Position.Cleaner)
+                            || list.contains(Position.Designer)
+                            || list.contains(Position.Programmer)
+                            || list.contains(Position.Tester) ) {
+                        amountPositions++;
+                        break;
+                    } else {
+                        list.add(Position.Manager);
+                        break;
+                    }
+
+                case 4: // Director
+                    //проверяем, что директора еще требуются
+                    if (countDirectorsPositions > 0) {
+                        list.clear(); //удаляем все предыдущие должности
+                        list.add(Position.Director); //добавляем должность директора
+                        countDirectorsPositions--;
+                        break;
+                    }
+
+                case 5: // Accountant
+                    if (list.contains(Position.Programmer)
+                            || list.contains(Position.Designer)
+                            || list.contains(Position.Tester)
+                            || list.contains(Position.Director)
+                            || list.contains(Position.Cleaner)) {
+                        amountPositions++;
+                        break;
+                    } else {
+                        list.add(Position.Accountant);
+                        break;
+                    }
+
+                case 6: // Cleaner
+                    if (list.contains(Position.Programmer)
+                            || list.contains(Position.Designer)
+                            || list.contains(Position.Tester)
+                            || list.contains(Position.Manager)
+                            || list.contains(Position.Director)
+                            || list.contains(Position.Accountant)) {
+                        amountPositions++;
+                        break;
+                    } else {
+                        list.add(Position.Cleaner);
+                        break;
+                    }
+            }
+
         }
         return list;
     }
