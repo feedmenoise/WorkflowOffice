@@ -45,11 +45,18 @@ public class Accountant extends APosition implements Employee {
     /**
      * Начисление зарплаты всем сотрудникам компании
      */
-    public void payWeekSalary(Map<Person, Set<Position>> personsList, Set<Freelancer> freelancersList) {
+    public void payWeekSalary(Map<Person, Set<Position>> personsList) {
         for (Map.Entry<Person, Set<Position>> person : personsList.entrySet())
             allSalary += person.getKey().paySalary();
-        for (Freelancer freelancer : freelancersList)
+    }
+
+    /**
+     * Начисление зарплаты фрилансерам
+     */
+    public void payDaySalary(Set<Freelancer> freelancersList) {
+        for (Freelancer freelancer : freelancersList) {
             allSalaryFreelancers += freelancer.paySalary();
+        }
     }
 
 

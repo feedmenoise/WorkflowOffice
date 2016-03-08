@@ -61,9 +61,11 @@ public class WorkController {
             for (int j = 0; j < Company.MAX_WORKING_DAYS; j++) {
                 DirectorsController.INSTANCE.runDirectorsController();
                 Thread.sleep(Company.MAX_WORKING_HOURS);
+                // в конце дня выплачивается зарплата фрилансерам
+                generalAccountant.payDaySalary(PersonController.INSTANCE.getFreelancers());
             }
             //в конце недели выплачиается зарплата
-            generalAccountant.payWeekSalary(personList, PersonController.INSTANCE.getFreelancers());
+            generalAccountant.payWeekSalary(personList);
         }
 
         ReportController.INSTANCE.runReportController(); //создаем отчет
