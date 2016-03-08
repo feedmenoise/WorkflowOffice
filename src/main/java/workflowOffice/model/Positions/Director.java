@@ -54,7 +54,10 @@ public class Director extends APosition implements Employee {
                     }
                 }
                 if (!isTherePerformer) { //если никто не взялся за задание нанимаем фрилансера
-                    PersonController.INSTANCE.createNewFreelancer().getToWork();
+                    if (taskList.get(currentPosition).equals("выполнять уборку")) //если это распоряжение об уборке, то оно остается не выполненным
+                        continue;
+                    else
+                        PersonController.INSTANCE.createNewFreelancer().getToWork();
                 }
             }
         }
