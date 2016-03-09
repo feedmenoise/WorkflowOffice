@@ -45,6 +45,8 @@ public class ReportController {
         dataFile.add("---------------- ВСЕГО ВЫПЛАЧЕНО ----------------------");
         amountPersonsSalary(); //добавляем отчет о выданной зарплате
         dataFile.add("-------------------------------------------------------");
+        dataFile.add("---------------- ПЕРЕЧЕНЬ СОТРУДНИКОВ -----------------");
+        staffReport();
 
         try (FileWriter fileWriter = new FileWriter(fileName, false)) {
             for (String writeStr : dataFile) {
@@ -275,5 +277,177 @@ public class ReportController {
         dataFile.add(String.format("      Бухгалтерам :       %.2f", accountantsSalary));
         dataFile.add(String.format("      Уборщикам :         %.2f", cleanersSalary));
         dataFile.add(String.format("Фрилансерам :             %.2f", freelancersSalary));
+    }
+
+    /**
+     * Метод расчитывает и выводит отчетность по каждому сотруднику
+     */
+    protected void staffReport() {
+        String personName;
+        String personPositionName;
+        double personHours;
+        int personTasks;
+        double personSalary;
+
+        double directorSalary;
+        double programmerSalary;
+        double designerSalary ;
+        double testerSalary;
+        double managerSalary;
+        double accountantSalary;
+        double cleanerSalary;
+
+        int directorTasks;
+        int programmerTasks;
+        int designerTasks;
+        int testerTasks;
+        int managerTasks;
+        int accountantTasks;
+        int cleanerTasks;
+
+        for (Map.Entry<Person, Set<Position>> person : personList.entrySet()) {
+            Map<Position, APosition> listPositions = person.getKey().getListPositions();
+            Set<Position> positionSet = person.getValue();
+
+            //сбрасываем все значение для каждой итерации
+            personName = "";
+            personPositionName = "";
+            personHours = 0;
+            personTasks = 0;
+            personSalary = 0;
+
+            directorSalary = 0;
+            programmerSalary = 0;
+            designerSalary = 0;
+            testerSalary = 0;
+            managerSalary = 0;
+            accountantSalary = 0;
+            cleanerSalary = 0;
+
+            directorTasks = 0;
+            programmerTasks = 0;
+            designerTasks = 0;
+            testerTasks = 0;
+            managerTasks = 0;
+            accountantTasks = 0;
+            cleanerTasks = 0;
+
+
+            //узнаем должности сотрудника
+            for (Position position : positionSet) {
+                switch (position.toString()) {
+                    case "Director":
+                        personName = person.getKey().getPersonName();
+                        personHours += person.getKey().getAllHoursWorked();
+                        personPositionName += " Директор";
+                        break;
+                    case "Programmer":
+                        personName = person.getKey().getPersonName();
+                        personHours += person.getKey().getAllHoursWorked();
+                        personPositionName += " Программист";
+
+                        break;
+                    case "Designer":
+                        personName = person.getKey().getPersonName();
+                        personHours += person.getKey().getAllHoursWorked();
+                        personPositionName += " Дизайнер";
+                        break;
+                    case "Tester":
+                        personName = person.getKey().getPersonName();
+                        personHours += person.getKey().getAllHoursWorked();
+                        personPositionName += " Тестировщик";
+                        break;
+                    case "Manager":
+                        personName = person.getKey().getPersonName();
+                        personHours += person.getKey().getAllHoursWorked();
+                        personPositionName += " Менеджер";
+                        break;
+                    case "Accountant":
+                        personName = person.getKey().getPersonName();
+                        personHours += person.getKey().getAllHoursWorked();
+                        personPositionName += " Бухгалтер";
+                        break;
+                    case "Cleaner":
+                        personName = person.getKey().getPersonName();
+                        personHours += person.getKey().getAllHoursWorked();
+                        personPositionName += " Уборщик";
+                        break;
+                    default:
+                        break;
+                }
+
+                //узнаем полученную зарплату и выполненные задачи сотрудником за все должности
+                for (Map.Entry<Position, APosition> personAPositionEntry : listPositions.entrySet()) {
+                    switch (personAPositionEntry.getKey().toString()) {
+                        case "Director":
+                            Director director = (Director) personAPositionEntry.getValue();
+                            directorSalary = director.getSalary();
+                            directorTasks = director.getCountTasks();
+                            break;
+                        case "Programmer":
+                            Programmer programmer = (Programmer) personAPositionEntry.getValue();
+                            programmerSalary = programmer.getSalary();
+                            programmerTasks = programmer.getCountTasks();
+                            break;
+                        case "Designer":
+                            Designer designer = (Designer) personAPositionEntry.getValue();
+                            designerSalary = designer.getSalary();
+                            designerTasks = designer.getCountTasks();
+                            break;
+                        case "Tester":
+                            Tester tester = (Tester) personAPositionEntry.getValue();
+                            testerSalary = tester.getSalary();
+                            testerTasks = tester.getCountTasks();
+                            break;
+                        case "Manager":
+                            Manager manager = (Manager) personAPositionEntry.getValue();
+                            managerSalary = manager.getSalary();
+                            managerTasks = manager.getCountTasks();
+                            break;
+                        case "Accountant":
+                            Accountant accountant = (Accountant) personAPositionEntry.getValue();
+                            accountantSalary = accountant.getSalary();
+                            accountantTasks = accountant.getCountTasks();
+                            break;
+                        case "Cleaner":
+                            Cleaner cleaner = (Cleaner) personAPositionEntry.getValue();
+                            cleanerSalary = cleaner.getSalary();
+                            cleanerTasks = cleaner.getCountTasks();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //подсчитываем общее кол-во задач сотрудника
+                    personTasks = directorTasks
+                            + programmerTasks
+                            + designerTasks
+                            + testerTasks
+                            + managerTasks
+                            + accountantTasks
+                            + cleanerTasks;
+
+                    //подсчитываем зарплату сотрудника за все должности
+                    personSalary = directorSalary
+                            + programmerSalary
+                            + designerSalary
+                            + testerSalary
+                            + managerSalary
+                            + accountantSalary
+                            + cleanerSalary;
+                }
+
+            }
+
+            dataFile.add(String.format(personName));
+            dataFile.add(String.format("Должность(и):    " + personPositionName));
+            dataFile.add(String.format("Отработал часов:  %.2f",  personHours));
+            dataFile.add(String.format("Выполнил заданий: %d",  personTasks));
+            dataFile.add(String.format("Получил зарплату: %.2f",  personSalary));
+            dataFile.add("-------------------------------------------------------");
+
+
+
+        }
     }
 }
