@@ -1,5 +1,6 @@
 package workflowOffice.model.Positions;
 
+import workflowOffice.main.Company;
 import workflowOffice.model.Сontractor;
 
 /**
@@ -12,6 +13,7 @@ public class Tester extends APosition implements Сontractor {
     private double salary; //зарплата
     private float amountHoursOneInstructions; //кол-во часов на выполнение одного задания
     private int countTasks = 0; //счетчик выполненных заданий
+    private double calcDoubleSalary; //для счета зарплаты
 
     public Tester(String name) {
         super(name);
@@ -36,7 +38,12 @@ public class Tester extends APosition implements Сontractor {
      */
     @Override
     public double calcSalary() {
-        return hourlyRate * hoursWorked;
+        if (hoursWorked > Company.MAX_WORKING_HOURS_PER_WEEK) {
+            calcDoubleSalary = ((hoursWorked-Company.MAX_WORKING_HOURS_PER_WEEK)*hourlyRate)*2 + ((hoursWorked - (hoursWorked-Company.MAX_WORKING_HOURS_PER_WEEK))*hourlyRate);
+        }
+        else
+            calcDoubleSalary = hourlyRate * hoursWorked;
+        return calcDoubleSalary;
     }
 
     /**
