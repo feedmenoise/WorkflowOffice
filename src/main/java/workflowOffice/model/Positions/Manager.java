@@ -6,7 +6,7 @@ import workflowOffice.model.Employee;
  * Класс должности Менеджер
  */
 public class Manager extends APosition implements Employee {
-    private int fixedRate; //фиксированная ставка
+    private static int fixedRate; //фиксированная ставка
     private int countTasks = 0; //счетчик выполненных заданий
     private double salary; //зарплата
     private double allHoursWorked; //отработанные часы - для отчета
@@ -50,8 +50,7 @@ public class Manager extends APosition implements Employee {
         this.fixedRate = fixedRate;
     }
 
-    @Override
-    public int getFixedRate() {
+    public static int getFixedRate() {
         return fixedRate;
     }
 
@@ -62,4 +61,6 @@ public class Manager extends APosition implements Employee {
     public double getSalary() {
         return salary;
     }
+
+
 }

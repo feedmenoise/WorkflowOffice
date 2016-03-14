@@ -11,7 +11,7 @@ import java.util.Set;
  * Класс должности Бухгалтер
  */
 public class Accountant extends APosition implements Employee {
-    private int fixedRate; //фиксированная ставка
+    private static int fixedRate; //фиксированная ставка
     private double allSalary = 0; //всего выплачено сотрудникам
     private double allHoursWorked; //отработанные часы - для отчета
     private double salary; //зарплата
@@ -91,8 +91,7 @@ public class Accountant extends APosition implements Employee {
         this.fixedRate = fixedRate;
     }
 
-    @Override
-    public int getFixedRate() {
+    public static int getFixedRate() {
         return fixedRate;
     }
 }

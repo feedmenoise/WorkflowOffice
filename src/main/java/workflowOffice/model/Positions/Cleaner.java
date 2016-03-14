@@ -7,7 +7,7 @@ import workflowOffice.model.Сontractor;
      * Класс должности Уборщик.
      */
     public class Cleaner extends APosition implements Сontractor {
-        private int hourlyRate; //почасовая ставка
+        private static int hourlyRate; //почасовая ставка
         private double hoursWorked; //отработанные часы - для почасовой оплаты
         private double allHoursWorked; //отработанные часы - для отчета
         private double salary; //зарплата
@@ -85,6 +85,10 @@ import workflowOffice.model.Сontractor;
 
         public double getSalary() {
             return salary;
+        }
+
+        public static int getHourlyRate(){
+            return hourlyRate;
         }
     }
 

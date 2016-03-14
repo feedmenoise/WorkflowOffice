@@ -11,11 +11,5 @@ public interface Employee {
      * @param fixedRate ставка
      */
     void setFixedRate(int fixedRate);
-
-    /**
-     * Метод возвращает фиксированную ставку
-     *
-     * @return fixedRate
-     */
-    int getFixedRate();
+    
 }
