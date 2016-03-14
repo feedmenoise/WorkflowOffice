@@ -56,9 +56,7 @@ public class Director extends APosition implements Employee {
             taskListPriority.put(Position.Designer, random.nextInt(5)+1);
             taskListPriority.put(Position.Tester, random.nextInt(5)+1);
             taskListPriority.put(Position.Cleaner, random.nextInt(5)+1);
-
-
-
+            
             for (Map.Entry<Person, Set<Position>> person : personList.entrySet()) {
                 Person currentPerson = person.getKey(); //текущий сотрудник
                 Position position = null; //текущее задание
@@ -81,15 +79,13 @@ public class Director extends APosition implements Employee {
                                 //Получаем стоимость оплаты текущей позиции
 
                                 try {
+                                    //Получаем стоимость оплаты заданий
                                     posRate = getRate(position);
+                                    //проверяем стоимость заданий
                                     taskRate = getRate(task.getKey());
                                 } catch (NullPointerException e){
                                     System.out.println("Во время проверки стоимости задания произошла ошибка!" + e.getMessage());
                                 }
-
-                                //Получаем стоимость оплаты заданий
-
-
                                 //Сравниваем стоимость
                                 //Если оплата текущей позиции больше, то идем дальше
                                 if (posRate > taskRate) {
@@ -97,8 +93,6 @@ public class Director extends APosition implements Employee {
                                 }
                                 //иначе запоминаем более оплачиваемое задание
                                 else position = task.getKey();
-                                //проверяем стоимость заданий
-
 
                             } else continue;
                         }
